@@ -1,3 +1,4 @@
+import os
 from contextvars import ContextVar
 
 from aiohttp import web
@@ -15,7 +16,7 @@ async def on_cleanup(app):
 
 
 async def init():
-    redis_conn = await create_redis_pool('redis://localhost')
+    redis_conn = await create_redis_pool(os.getenv('ADDRESS'))
     redis_connection.set(redis_conn)
     routes = create_routes(redis_connection.get())
     app = web.Application()
