@@ -1,3 +1,4 @@
+
 import pytest
 
 from converter_currency.models.currency_storage import CurrencyStorage
