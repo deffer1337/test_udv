@@ -10,7 +10,7 @@ class _DataBaseQueryData(BaseModel):
 
     @validator('merge')
     def merge_should_be_one_or_zero(cls, merge: int) -> int:
-        if merge not in [1, 2]:
+        if merge not in [0, 1]:
             raise ValueError('merge should be one or zero')
 
         return merge
@@ -23,7 +23,11 @@ class DBCurrencyHandler:
 
     async def post(self, request: Request):
         data = await request.content.read()
-        data = json.loads(data)
+        try:
+            data = json.loads(data)
+        except json.JSONDecodeError as e:
+            return json_response({f'{type(e).__name__}': str(e)}, status=400)
+
         params = request.query
         try:
             data_base_query_data = _DataBaseQueryData(**params)
