@@ -35,4 +35,4 @@ class CurrencyStorage:
             await self._redis.flushdb()
 
         for currency, rate in data.items():
-            await self._redis.set(currency, rate)
+            await self._redis.set(currency.upper(), rate)
